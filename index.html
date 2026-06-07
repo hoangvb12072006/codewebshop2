@@ -236,24 +236,24 @@
             </div>
         </section>
 
-        <!-- ================= NẠP SỐ DƯ ================= -->
-        <section id="sec-deposit" class="app-section">
+       <section id="sec-deposit" class="app-section">
             <div class="hub-section-title">💳 CHỌN PHƯƠNG THỨC NẠP</div>
             <div class="deposit-grid">
                 <div class="deposit-card">
                     <div class="d-icon">🏦</div>
                     <div class="d-title">Chuyển Khoản Ngân Hàng</div>
                     <div class="d-desc">Nạp tự động vào hệ thống chỉ sau 5 giây với nội dung chuyển khoản riêng.</div>
-                    <button class="btn-action" style="width: 100%;" onclick="alert('MB Bank: 123456789 - NGUYỄN VIỆT HOÀNG')">NẠP NGAY (AUTO)</button>
+                    <button class="btn-action" style="width: 100%;" onclick="showCyberToast('MB Bank: 123456789 <br><span style=\'color: var(--cyan);\'>Chủ TK: NGUYỄN VIỆT HOÀNG</span>')">NẠP NGAY (AUTO)</button>
                 </div>
                 <div class="deposit-card">
                     <div class="d-icon">🎫</div>
                     <div class="d-title">Nạp Bằng Thẻ Cào</div>
                     <div class="d-desc">Hỗ trợ Viettel, Vina, Mobi. Phí gạch thẻ 20% theo quy định hệ thống.</div>
-                    <button class="btn-action" style="width: 100%;" onclick="alert('Form nạp thẻ cào đang bảo trì!')">NẠP THẺ (BẢO TRÌ)</button>
+                    <button class="btn-action" style="width: 100%;" onclick="showCyberToast('Cổng nạp thẻ cào hiện đang bảo trì!')">NẠP THẺ (BẢO TRÌ)</button>
                 </div>
             </div>
         </section>
+        
     </main>
 
     <!-- ================= MODAL AUTH (ĐĂNG NHẬP / ĐĂNG KÝ) ================= -->
@@ -271,12 +271,12 @@
                 <input type="password" class="input-box" placeholder="Mật khẩu...">
                 <button class="btn-submit" onclick="executeLogin()">ĐĂNG NHẬP NGAY</button>
             </div>
-            <!-- Form Đăng Ký -->
-            <div id="form-reg" class="auth-form">
+            
+             <div id="form-reg" class="auth-form">
                 <input type="text" class="input-box" placeholder="Tên tài khoản...">
                 <input type="password" class="input-box" placeholder="Mật khẩu...">
                 <input type="password" class="input-box" placeholder="Nhập lại mật khẩu...">
-                <button class="btn-submit" onclick="alert('Đã gửi yêu cầu đăng ký!')">TẠO TÀI KHOẢN</button>
+                <button class="btn-submit" onclick="showCyberToast('Yêu cầu đăng ký đã được gửi thành công!'); closeModal('authModal');">TẠO TÀI KHOẢN</button>
             </div>
         </div>
     </div>
@@ -289,9 +289,10 @@
             <h2 class="modal-title" id="qv-title" style="margin-bottom: 5px; text-align: left;">Tên Sản Phẩm</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;" id="qv-desc">Mô tả sản phẩm sẽ hiện ở đây...</p>
             <div class="qv-price" id="qv-price">100.000đ</div>
-            <div style="display: flex; gap: 15px;">
-                <button class="btn-submit" onclick="alert('Chức năng mua đang bảo trì!')">MUA NGAY</button>
+                <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="showCyberToast('Tính năng thanh toán đang được nâng cấp!')">MUA NGAY</button>
                 <button class="btn-submit" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glow);" onclick="closeModal('detailModal')">ĐÓNG</button>
+            </div>
             </div>
         </div>
     </div>
