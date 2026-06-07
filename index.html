@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-backend: #030712; /* Đen huyền bí */
-            --bg-panel: #0b0f19; /* Nền panel sâu */
-            --bg-card: rgba(15, 23, 42, 0.4); /* Kính mờ slate */
+            --bg-backend: #030712; 
+            --bg-panel: #0b0f19; 
+            --bg-card: rgba(15, 23, 42, 0.4); 
             --border-glow: rgba(6, 182, 212, 0.15);
             --cyan: #06b6d4;
             --purple: #a855f7;
@@ -22,301 +22,367 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         
-        body {
-            background-color: var(--bg-backend);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg-backend); color: var(--text-main); min-height: 100vh; display: flex; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-        /* ==========================================
-           1. SIDEBAR BIẾN HÌNH (LEFT ON PC / BOTTOM ON MOBILE)
-           ========================================== */
-        .sidebar {
-            width: 260px;
-            background: var(--bg-panel);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0; bottom: 0; left: 0;
-            z-index: 100;
-            padding: 30px 20px;
-        }
-        .sidebar-logo {
-            font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 40px; text-transform: uppercase;
-            background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center;
-        }
+        /* ================= SIDEBAR ================= */
+        .sidebar { width: 260px; background: var(--bg-panel); border-right: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; padding: 30px 20px; }
+        .sidebar-logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 40px; text-transform: uppercase; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; }
         .menu-group { display: flex; flex-direction: column; gap: 8px; flex: 1; }
-        .menu-item {
-            display: flex; align-items: center; gap: 15px; padding: 14px 20px;
-            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            border-radius: 12px; transition: 0.3s;
-        }
-        .menu-item:hover, .menu-item.active {
-            color: #fff; background: rgba(255, 255, 255, 0.03);
-            box-shadow: inset 3px 0 0 var(--cyan);
-        }
-        .menu-item .icon { font-size: 1.1rem; }
-
-        /* Wallet Panel trên Sidebar */
-        .sidebar-wallet {
-            background: rgba(6, 182, 212, 0.05); border: 1px solid var(--border-glow);
-            padding: 15px; border-radius: 16px; display: flex; flex-direction: column; gap: 5px;
-        }
+        .menu-item { display: flex; align-items: center; gap: 15px; padding: 14px 20px; color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; border-radius: 12px; transition: 0.3s; cursor: pointer; border: none; background: transparent; text-align: left;}
+        .menu-item:hover, .menu-item.active { color: #fff; background: rgba(255, 255, 255, 0.03); box-shadow: inset 3px 0 0 var(--cyan); }
+        .sidebar-wallet { background: rgba(6, 182, 212, 0.05); border: 1px solid var(--border-glow); padding: 15px; border-radius: 16px; display: flex; flex-direction: column; gap: 5px; }
         .wallet-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
         .wallet-val { font-size: 1.1rem; font-weight: 800; color: var(--cyan); }
 
-        /* ==========================================
-           2. MAIN CONTENT AREA
-           ========================================== */
-        .main-panel {
-            flex: 1;
-            margin-left: 260px; /* Nhường chỗ cho sidebar trên PC */
-            padding: 40px 5%;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        /* Top Header Bar */
+        /* ================= MAIN PANEL ================= */
+        .main-panel { flex: 1; margin-left: 260px; padding: 40px 5%; display: flex; flex-direction: column; gap: 40px; }
         .top-navbar { display: flex; justify-content: space-between; align-items: center; }
         .greeting h1 { font-size: 1.6rem; font-weight: 800; }
         .greeting p { color: var(--text-muted); font-size: 0.9rem; }
-        
         .top-actions { display: flex; align-items: center; gap: 15px; }
         .search-wrapper { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 30px; display: flex; align-items: center; width: 300px; }
         .search-wrapper input { background: transparent; border: none; color: #fff; outline: none; font-size: 0.85rem; width: 100%; }
-        
         .btn-profile { background: var(--primary); border: none; color: #fff; padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
         .btn-profile:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3); }
+        .btn-profile.logged-in { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; }
 
-        /* Featured Dashboard Banner */
-        .promo-hub {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(88, 28, 135, 0.2));
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            border-radius: 24px; padding: 35px; display: flex; justify-content: space-between; align-items: center;
-            position: relative; overflow: hidden;
-        }
-        .promo-hub::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(6, 182, 212, 0.15); filter: blur(80px); }
+        /* ================= SECTIONS & ANIMATION ================= */
+        .app-section { display: none; animation: fadeIn 0.4s ease; flex-direction: column; gap: 40px; }
+        .app-section.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .promo-hub { background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(88, 28, 135, 0.2)); border: 1px solid rgba(168, 85, 247, 0.2); border-radius: 24px; padding: 35px; position: relative; overflow: hidden; }
         .promo-text h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
         .promo-text h2 span { color: var(--cyan); }
         .promo-text p { color: var(--text-muted); font-size: 0.95rem; max-width: 500px; }
 
-        /* ==========================================
-           3. LƯỚI SẢN PHẨM PHONG CÁCH SAAS APP
-           ========================================== */
         .hub-section-title { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: 10px; }
         .hub-section-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
 
         .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-        
-        .app-card {
-            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 20px;
-            padding: 25px; display: flex; flex-direction: column; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative;
-        }
+        .app-card { background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 20px; padding: 25px; display: flex; flex-direction: column; transition: 0.3s; backdrop-filter: blur(10px); }
         .app-card:hover { background: rgba(20, 30, 50, 0.5); border-color: var(--border-glow); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        
         .app-icon-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
         .app-icon { width: 48px; height: 48px; background: var(--bg-panel); border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
         .app-badge { background: rgba(6, 182, 212, 0.1); color: var(--cyan); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(6, 182, 212, 0.2); }
-
         .app-name { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
         .app-summary { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; flex: 1; line-height: 1.5; }
-        
         .app-meta-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 15px; }
         .app-meta-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: #cbd5e1; }
         .app-meta-item span { color: var(--text-muted); }
-
         .app-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .app-price { font-size: 1.3rem; font-weight: 800; color: #fff; }
-        .app-price span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; display: block; text-decoration: line-through; }
-        
-        .btn-action { background: var(--bg-panel); color: #fff; border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; text-transform: uppercase; cursor: pointer;}
+        .btn-action { background: var(--bg-panel); color: #fff; border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .app-card:hover .btn-action { background: linear-gradient(135deg, #06b6d4, #0284c7); border-color: transparent; box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3); }
 
-        /* ==========================================
-           4. RESPONSIVE BIẾN HÌNH DI ĐỘNG (MOBILE APP BAR)
-           ========================================== */
+        /* ================= NẠP TIỀN UI ================= */
+        .deposit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .deposit-card { background: rgba(0,0,0,0.3); border: 1px dashed var(--border-glow); border-radius: 20px; padding: 30px; text-align: center; transition: 0.3s; }
+        .deposit-card:hover { border-style: solid; background: rgba(6, 182, 212, 0.05); }
+        .d-icon { font-size: 3rem; margin-bottom: 15px; }
+        .d-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .d-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* ================= MODALS TỔNG HỢP ================= */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-box { background: rgba(15, 15, 22, 0.95); width: 90%; max-width: 450px; border-radius: 24px; padding: 35px 30px; position: relative; transform: scale(0.9); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        .modal-box.large { max-width: 600px; }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        .close-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.05); width: 30px; height: 30px; border-radius: 50%; border: none; color: #fff; cursor: pointer; font-weight: bold; }
+        .close-btn:hover { background: #ef4444; }
+
+        /* Form Controls */
+        .modal-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 25px; text-align: center; color: #fff; }
+        .input-box { width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; margin-bottom: 15px; outline: none; }
+        .input-box:focus { border-color: var(--cyan); }
+        .btn-submit { width: 100%; padding: 14px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-submit:hover { box-shadow: 0 5px 15px var(--border-glow); }
+        .tab-row { display: flex; margin-bottom: 20px; background: rgba(0,0,0,0.4); border-radius: 10px; padding: 5px; }
+        .tab-btn { flex: 1; padding: 10px; background: transparent; border: none; color: var(--text-muted); font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .tab-btn.active { background: rgba(255,255,255,0.1); color: #fff; }
+        .auth-form { display: none; } .auth-form.active { display: block; }
+
+        /* Detail Quick View */
+        .qv-img { width: 100%; height: 200px; background: #000; border-radius: 15px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .qv-price { font-size: 2rem; color: var(--cyan); font-weight: 800; text-align: center; margin: 15px 0; }
+
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            
-            /* Biến sidebar thành Bottom Nav Bar trên điện thoại */
-            .sidebar {
-                width: 100%; height: 70px; flex-direction: row;
-                top: auto; bottom: 0; left: 0; right: 0;
-                padding: 0 10px; justify-content: space-around; align-items: center;
-                border-right: none; border-top: 1px solid var(--border-light);
-                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-                backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            }
-            .sidebar-logo, .sidebar-wallet { display: none; } /* Giấu cấu trúc PC */
+            .sidebar { width: 100%; height: 70px; flex-direction: row; top: auto; bottom: 0; left: 0; right: 0; padding: 0 10px; justify-content: space-around; border-right: none; border-top: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(20px); }
+            .sidebar-logo, .sidebar-wallet { display: none; }
             .menu-group { flex-direction: row; justify-content: space-around; width: 100%; gap: 0; }
-            .menu-item { flex-direction: column; gap: 4px; padding: 8px; font-size: 0.65rem; border-radius: 0; align-items: center;}
-            .menu-item:hover, .menu-item.active { background: transparent; box-shadow: none; color: var(--cyan); }
-            
+            .menu-item { flex-direction: column; gap: 4px; padding: 8px; font-size: 0.65rem; }
             .main-panel { margin-left: 0; padding: 25px 20px 100px 20px; gap: 30px; }
             .search-wrapper, .greeting p { display: none; }
-            .promo-hub { padding: 20px; flex-direction: column; text-align: center; gap: 15px; }
-            .app-grid { grid-template-columns: 1fr; }
+            .app-grid, .deposit-grid { grid-template-columns: 1fr; }
         }
 
-        /* CSS TOAST CYBERPUNK CHẶN F12 */
-        #cyber-toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 99999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
-        .cyber-toast { background: rgba(11, 15, 25, 0.95); border-left: 4px solid var(--cyan); border-radius: 12px; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); padding: 15px 25px; color: #fff; font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 12px; transform: translateX(120%); opacity: 0; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; backdrop-filter: blur(10px); }
-        .cyber-toast.hide { animation: slideOut 0.4s ease forwards; }
+        #cyber-toast-container { position: fixed; bottom: 90px; right: 20px; z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .cyber-toast { background: rgba(11, 15, 25, 0.95); border-left: 4px solid var(--cyan); border-radius: 8px; padding: 12px 20px; color: #fff; font-size: 0.85rem; font-weight: 700; opacity: 0; transform: translateX(100%); animation: slideIn 0.3s forwards; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .cyber-toast.hide { animation: slideOut 0.3s forwards; }
         @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
-        @keyframes slideOut { to { transform: translateX(120%); opacity: 0; } }
+        @keyframes slideOut { to { transform: translateX(100%); opacity: 0; } }
     </style>
 </head>
 <body>
 
+    <!-- 1. SIDEBAR / BOTTOM BAR -->
     <aside class="sidebar">
         <div class="sidebar-logo">HK <span>Matrix</span></div>
-        
         <nav class="menu-group">
-            <a href="#" class="menu-item active"><span class="icon">🏠</span>Trang Chủ</a>
-            <a href="#" class="menu-item"><span class="icon">💻</span>Mã Nguồn Web</a>
-            <a href="#" class="menu-item"><span class="icon">🤖</span>Bot Tự Động</a>
-            <a href="#" class="menu-item"><span class="icon">🔑</span>Key Hack VIP</a>
-            <a href="#" class="menu-item"><span class="icon">💳</span>Nạp Số Dư</a>
+            <button class="menu-item active" onclick="switchTab('sec-home', this)"><span class="icon">🏠</span>Trang Chủ</button>
+            <button class="menu-item" onclick="switchTab('sec-web', this)"><span class="icon">💻</span>Mã Nguồn Web</button>
+            <button class="menu-item" onclick="switchTab('sec-hack', this)"><span class="icon">🔑</span>Key Hack VIP</button>
+            <button class="menu-item" onclick="switchTab('sec-deposit', this)"><span class="icon">💳</span>Nạp Số Dư</button>
         </nav>
-
         <div class="sidebar-wallet">
             <span class="wallet-label">Tài Khoản Xu</span>
-            <span class="wallet-val">1,250,000 CC</span>
+            <span class="wallet-val" id="user-balance">0 CC</span>
         </div>
     </aside>
 
+    <!-- 2. MAIN CONTENT -->
     <main class="main-panel">
-        
         <div class="top-navbar">
             <div class="greeting">
-                <h1>Hệ Thống Hack & Code VIP</h1>
-                <p>Chào mừng trở lại khu quản lý của HOANGKUN STORE.</p>
+                <h1 id="user-greet">Hệ Thống Hack & Code VIP</h1>
+                <p>Khu quản lý đặc biệt của HOANGKUN STORE.</p>
             </div>
             <div class="top-actions">
-                <div class="search-wrapper">
-                    <input type="text" placeholder="Tìm kiếm sản phẩm ma trận...">
-                </div>
-                <button class="btn-profile" onclick="alert('Form mẫu UI Đăng Nhập!')">Hồ Sơ Thành Viên</button>
+                <div class="search-wrapper"><input type="text" placeholder="Tìm kiếm..."></div>
+                <button id="btn-auth-main" class="btn-profile" onclick="handleAuthClick()">Đăng Nhập / Đăng Ký</button>
             </div>
         </div>
 
-        <div class="promo-hub">
-            <div class="promo-text">
-                <h2>Cực Hạn Công Nghệ <span>Proxy V3</span></h2>
-                <p>Hệ thống tự động đồng bộ hóa các bản cập nhật bypass anti-cheat mới nhất. An toàn - Sạch sẽ - Tốc độ cao.</p>
-            </div>
-        </div>
-
-        <div class="hub-section-title">🌐 MÃ NGUỒN WEBSITE KINH DOANH</div>
-        <div class="app-grid">
-            <div class="app-card">
-                <div class="app-icon-row">
-                    <div class="app-icon">🛒</div>
-                    <span class="app-badge">Best Seller</span>
-                </div>
-                <h3 class="app-name">Code Web Shop Game Auto Bank</h3>
-                <p class="app-summary">Mã nguồn kinh doanh tự động 24/7. Tích hợp API check số dư ngân hàng và Momo xuất dữ liệu trong 3 giây.</p>
-                <div class="app-meta-list">
-                    <div class="app-meta-item"><span>Ngôn ngữ:</span><b>HTML5, CSS3, JS Pure</b></div>
-                    <div class="app-meta-item"><span>Cơ sở dữ liệu:</span><b>Firebase Realtime</b></div>
-                    <div class="app-meta-item"><span>Tốc độ load:</span><b>0.4 giây (Chuẩn SEO)</b></div>
-                </div>
-                <div class="app-footer">
-                    <div class="app-price">Liên Hệ</div>
-                    <button class="btn-action" onclick="window.location.href='web-shop-detail.html'">Chi Tiết</button>
+        <!-- ================= TRANG CHỦ (HOME) ================= -->
+        <section id="sec-home" class="app-section active">
+            <div class="promo-hub">
+                <div class="promo-text">
+                    <h2>Cực Hạn Công Nghệ <span>Proxy V3</span></h2>
+                    <p>Hệ thống tự động đồng bộ hóa các bản cập nhật bypass anti-cheat mới nhất. An toàn - Sạch sẽ - Tốc độ cao.</p>
                 </div>
             </div>
-
-            <div class="app-card">
-                <div class="app-icon-row">
-                    <div class="app-icon">🎨</div>
-                    <span class="app-badge" style="background:rgba(168,85,247,0.1); color:var(--purple); border-color:rgba(168,85,247,0.2);">Cyberpunk</span>
+            <div class="hub-section-title">🌐 HOT TRENDING</div>
+            <div class="app-grid">
+                <!-- SP 1 -->
+                <div class="app-card">
+                    <div class="app-icon-row">
+                        <div class="app-icon">🛒</div><span class="app-badge">Best Seller</span>
+                    </div>
+                    <h3 class="app-name">Web Shop Game Auto</h3>
+                    <p class="app-summary">Tích hợp API check số dư ngân hàng tự động xuất đơn.</p>
+                    <div class="app-footer">
+                        <div class="app-price">Liên Hệ</div>
+                        <button class="btn-action" onclick="openDetail('Web Shop Game Auto', '🛒', 'Mã nguồn Shop Acc tự động kiểm tra số dư ACB/MB/Momo. Giao diện siêu đẹp chuẩn SEO, dễ dàng tùy biến.', 'Liên Hệ')">Chi Tiết</button>
+                    </div>
                 </div>
-                <h3 class="app-name">Landing Page Biocenter VIP</h3>
-                <p class="app-summary">Giao diện Landing Page giới thiệu bản thân phong cách Neon rực rỡ, tích hợp hiệu ứng gõ chữ mượt mà.</p>
-                <div class="app-meta-list">
-                    <div class="app-meta-item"><span>Framework:</span><b>Phaser / Animation JS</b></div>
-                    <div class="app-meta-item"><span>Chế độ:</span><b>Dark/Light Mode Sẵn</b></div>
-                    <div class="app-meta-item"><span>Cài đặt:</span><b>Vercel / GitHub Sẵn</b></div>
-                </div>
-                <div class="app-footer">
-                    <div class="app-price">Liên Hệ</div>
-                    <button class="btn-action" onclick="window.location.href='web-shop-detail.html'">Chi Tiết</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="hub-section-title" style="color: var(--purple);">🎯 SCRIPT MOD GAME CHUYÊN SÂU</div>
-        <div class="app-grid">
-            <div class="app-card">
-                <div class="app-icon-row">
-                    <div class="app-icon">🎯</div>
-                    <span class="app-badge" style="background:rgba(16,185,129,0.1); color:var(--success); border-color:rgba(16,185,129,0.2);">Hoạt động</span>
-                </div>
-                <h3 class="app-name">Menu Mod Liên Quân Mobile</h3>
-                <p class="app-summary">Bản Hack kích hoạt ghim tâm chiêu thức 100%, nhìn thấu bản đồ nhỏ, mở khóa full hiệu ứng trang phục VIP.</p>
-                <div class="app-meta-list">
-                    <div class="app-meta-item"><span>Hệ điều hành:</span><b>iOS & Android</b></div>
-                    <div class="app-meta-item"><span>Bảo mật:</span><b>Bypass Anti-Cheat xịn</b></div>
-                    <div class="app-meta-item"><span>Thời hạn key:</span><b>24h / Tuần / Tháng</b></div>
-                </div>
-                <div class="app-footer">
-                    <div class="app-price">Free / Mở <span>150,000đ</span></div>
-                    <button class="btn-action" onclick="window.location.href='Lienquan.html'">Lấy Key</button>
+                <!-- SP 2 -->
+                <div class="app-card">
+                    <div class="app-icon-row">
+                        <div class="app-icon">🎯</div><span class="app-badge" style="color:var(--success); border-color:var(--success);">Hot</span>
+                    </div>
+                    <h3 class="app-name">Menu Mod Liên Quân</h3>
+                    <p class="app-summary">Ghim tâm 100%, nhìn thấu map, mở khóa full skin.</p>
+                    <div class="app-footer">
+                        <div class="app-price">150,000đ</div>
+                        <button class="btn-action" onclick="openDetail('Menu Mod Liên Quân', '🎯', 'Bản Hack an toàn, Anti-ban qua mùa, update tự động khi có phiên bản Garena mới.', '150,000đ')">Chi Tiết</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
+        <!-- ================= MÃ NGUỒN WEB ================= -->
+        <section id="sec-web" class="app-section">
+            <div class="hub-section-title">💻 DANH SÁCH MÃ NGUỒN WEB</div>
+            <div class="app-grid">
+                <!-- Khúc này ông có thể copy thẻ .app-card vứt vào thêm -->
+                <div class="app-card">
+                    <div class="app-icon-row"><div class="app-icon">🛒</div><span class="app-badge">Source Web</span></div>
+                    <h3 class="app-name">Web Shop Game Auto</h3>
+                    <p class="app-summary">Mã nguồn API Momo/Bank. Code sạch, tối ưu hóa tốc độ tải.</p>
+                    <div class="app-footer">
+                        <div class="app-price">Liên Hệ</div>
+                        <button class="btn-action" onclick="openDetail('Web Shop Game Auto', '🛒', 'Bao gồm Frontend (UI E-Sports) + Backend (Firebase/PHP). Hỗ trợ cài lên host free.', 'Liên Hệ')">Chi Tiết</button>
+                    </div>
+                </div>
+                <div class="app-card">
+                    <div class="app-icon-row"><div class="app-icon">🎨</div><span class="app-badge">Source Web</span></div>
+                    <h3 class="app-name">Landing Page Cyberpunk</h3>
+                    <p class="app-summary">Trang giới thiệu Bio phong cách Neon có hiệu ứng ma trận.</p>
+                    <div class="app-footer">
+                        <div class="app-price">Free</div>
+                        <button class="btn-action" onclick="openDetail('Landing Page Cyberpunk', '🎨', 'Dành riêng cho dân chơi hệ công nghệ. HTML CSS JS thuần dễ sửa.', '0đ')">Chi Tiết</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= KEY HACK VIP ================= -->
+        <section id="sec-hack" class="app-section">
+            <div class="hub-section-title" style="color: var(--purple);">🔑 HỆ THỐNG KEY MOD GAME</div>
+            <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-icon-row"><div class="app-icon">⚔️</div><span class="app-badge" style="color:var(--gold); border-color:var(--gold)">Free Fire</span></div>
+                    <h3 class="app-name">Proxy V3 FF Aimbot</h3>
+                    <p class="app-summary">Auto headshot, Xuyên tường radar, Ẩn bypass tránh quét.</p>
+                    <div class="app-footer">
+                        <div class="app-price">200,000đ</div>
+                        <button class="btn-action" onclick="openDetail('Proxy V3 FF Aimbot', '⚔️', 'Gói cài đặt VIP kèm key sử dụng 1 tháng. Đền bù acc nếu bị ban do lỗi phần mềm.', '200,000đ')">Chi Tiết</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= NẠP SỐ DƯ ================= -->
+        <section id="sec-deposit" class="app-section">
+            <div class="hub-section-title">💳 CHỌN PHƯƠNG THỨC NẠP</div>
+            <div class="deposit-grid">
+                <div class="deposit-card">
+                    <div class="d-icon">🏦</div>
+                    <div class="d-title">Chuyển Khoản Ngân Hàng</div>
+                    <div class="d-desc">Nạp tự động vào hệ thống chỉ sau 5 giây với nội dung chuyển khoản riêng.</div>
+                    <button class="btn-action" style="width: 100%;" onclick="alert('MB Bank: 123456789 - NGUYỄN VIỆT HOÀNG')">NẠP NGAY (AUTO)</button>
+                </div>
+                <div class="deposit-card">
+                    <div class="d-icon">🎫</div>
+                    <div class="d-title">Nạp Bằng Thẻ Cào</div>
+                    <div class="d-desc">Hỗ trợ Viettel, Vina, Mobi. Phí gạch thẻ 20% theo quy định hệ thống.</div>
+                    <button class="btn-action" style="width: 100%;" onclick="alert('Form nạp thẻ cào đang bảo trì!')">NẠP THẺ (BẢO TRÌ)</button>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <!-- ================= MODAL AUTH (ĐĂNG NHẬP / ĐĂNG KÝ) ================= -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('authModal')">✕</button>
+            <h2 class="modal-title">CỔNG BẢO MẬT</h2>
+            <div class="tab-row">
+                <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">ĐĂNG NHẬP</button>
+                <button class="tab-btn" id="tab-reg" onclick="switchAuthTab('reg')">ĐĂNG KÝ</button>
+            </div>
+            <!-- Form Đăng Nhập -->
+            <div id="form-login" class="auth-form active">
+                <input type="text" class="input-box" id="login-user" placeholder="Tên tài khoản...">
+                <input type="password" class="input-box" placeholder="Mật khẩu...">
+                <button class="btn-submit" onclick="executeLogin()">ĐĂNG NHẬP NGAY</button>
+            </div>
+            <!-- Form Đăng Ký -->
+            <div id="form-reg" class="auth-form">
+                <input type="text" class="input-box" placeholder="Tên tài khoản...">
+                <input type="password" class="input-box" placeholder="Mật khẩu...">
+                <input type="password" class="input-box" placeholder="Nhập lại mật khẩu...">
+                <button class="btn-submit" onclick="alert('Đã gửi yêu cầu đăng ký!')">TẠO TÀI KHOẢN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MODAL QUICK VIEW (CHI TIẾT SẢN PHẨM) ================= -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-box large">
+            <button class="close-btn" onclick="closeModal('detailModal')">✕</button>
+            <div class="qv-img" id="qv-img">🛒</div>
+            <h2 class="modal-title" id="qv-title" style="margin-bottom: 5px; text-align: left;">Tên Sản Phẩm</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;" id="qv-desc">Mô tả sản phẩm sẽ hiện ở đây...</p>
+            <div class="qv-price" id="qv-price">100.000đ</div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="alert('Chức năng mua đang bảo trì!')">MUA NGAY</button>
+                <button class="btn-submit" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glow);" onclick="closeModal('detailModal')">ĐÓNG</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT ĐIỀU KHIỂN LOGIC WEB -->
     <script>
-        function showCyberToast(message) {
-            let container = document.getElementById('cyber-toast-container');
-            if (!container) {
-                container = document.createElement('div');
-                container.id = 'cyber-toast-container';
-                document.body.appendChild(container);
-            }
-            const toast = document.createElement('div');
-            toast.className = 'cyber-toast';
-            toast.innerHTML = `⚠️ <div style="margin-left:8px;">${message}</div>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('hide');
-                setTimeout(() => toast.remove(), 400);
-            }, 2500);
+        // 1. Logic chuyển Tab Menu (SPA)
+        function switchTab(sectionId, btnElem) {
+            // Đổi màu nút active
+            document.querySelectorAll('.menu-item').forEach(btn => btn.classList.remove('active'));
+            btnElem.classList.add('active');
+            
+            // Ẩn tất cả section, hiện section đích
+            document.querySelectorAll('.app-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0,0);
         }
 
-        // Chặn chuột phải
-        document.addEventListener('contextmenu', e => {
-            e.preventDefault();
-            showCyberToast('Hành động chuột phải đã bị mã hóa bảo mật!');
-        });
+        // 2. Logic Đóng/Mở Modal
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        window.onclick = function(e) { 
+            if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); 
+        }
 
-        // Chặn tổ hợp phím nhà phát triển
-        document.onkeydown = function(e) {
-            const forbidden = [
-                123, // F12
-                (e.ctrlKey && e.shiftKey && e.keyCode === 73), // Ctrl+Shift+I
-                (e.ctrlKey && e.shiftKey && e.keyCode === 74), // Ctrl+Shift+J
-                (e.ctrlKey && e.keyCode === 85),               // Ctrl+U
-                (e.ctrlKey && e.keyCode === 83)                // Ctrl+S
-            ];
-            if (forbidden.includes(true)) {
-                e.preventDefault();
-                showCyberToast('Hệ thống kiểm tra mã nguồn đã bị vô hiệu hóa!');
-                return false;
+        // 3. Logic Đăng nhập / Đăng xuất
+        let isLoggedIn = false;
+        function switchAuthTab(type) {
+            document.getElementById('tab-login').classList.toggle('active', type === 'login');
+            document.getElementById('tab-reg').classList.toggle('active', type === 'reg');
+            document.getElementById('form-login').classList.toggle('active', type === 'login');
+            document.getElementById('form-reg').classList.toggle('active', type === 'reg');
+        }
+
+        function handleAuthClick() {
+            if(isLoggedIn) {
+                // Thoát
+                if(confirm("Bạn có chắc muốn đăng xuất?")) {
+                    isLoggedIn = false;
+                    document.getElementById('btn-auth-main').innerText = "Đăng Nhập / Đăng Ký";
+                    document.getElementById('btn-auth-main').classList.remove('logged-in');
+                    document.getElementById('user-greet').innerText = "Hệ Thống Hack & Code VIP";
+                    document.getElementById('user-balance').innerText = "0 CC";
+                    showCyberToast("Đã đăng xuất tài khoản an toàn!");
+                }
+            } else {
+                openModal('authModal');
             }
-        };
+        }
 
-        // Không cho bôi đen kéo thả
-        document.onselectstart = e => { e.preventDefault(); return false; };
+        function executeLogin() {
+            let user = document.getElementById('login-user').value || "HOANGKUN";
+            isLoggedIn = true;
+            closeModal('authModal');
+            
+            // Thay đổi giao diện sau khi đăng nhập
+            document.getElementById('btn-auth-main').innerText = "Thoát (" + user + ")";
+            document.getElementById('btn-auth-main').classList.add('logged-in');
+            document.getElementById('user-greet').innerText = "Xin chào, " + user + "!";
+            document.getElementById('user-balance').innerText = "1,500,000 CC";
+            
+            showCyberToast("Đăng nhập thành công! Chào mừng trở lại.");
+        }
+
+        // 4. Logic Load thông tin vào Form Xem Chi Tiết
+        function openDetail(title, icon, desc, price) {
+            document.getElementById('qv-title').innerText = title;
+            document.getElementById('qv-img').innerText = icon;
+            document.getElementById('qv-desc').innerText = desc;
+            document.getElementById('qv-price').innerText = price;
+            openModal('detailModal');
+        }
+
+        // 5. Toast Thông báo xịn & Chặn F12
+        function showCyberToast(msg) {
+            let box = document.getElementById('cyber-toast-container');
+            let t = document.createElement('div');
+            t.className = 'cyber-toast';
+            t.innerHTML = `⚡ ${msg}`;
+            box.appendChild(t);
+            setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 300); }, 2500);
+        }
+
+        // Chặn F12
+        document.onkeydown = function(e) {
+            const forbidden = [123, (e.ctrlKey && e.shiftKey && e.keyCode===73), (e.ctrlKey && e.keyCode===85)];
+            if (forbidden.includes(true)) { e.preventDefault(); showCyberToast('Hành động bị khóa bảo mật!'); return false; }
+        };
+        document.addEventListener('contextmenu', e => { e.preventDefault(); showCyberToast('Chuột phải đã bị khóa!'); });
     </script>
 </body>
 </html>
