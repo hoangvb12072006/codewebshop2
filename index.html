@@ -3,111 +3,320 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Trường Học</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>HOANGKUN MATRIX | Digital Products Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-backend: #030712; /* Đen huyền bí */
+            --bg-panel: #0b0f19; /* Nền panel sâu */
+            --bg-card: rgba(15, 23, 42, 0.4); /* Kính mờ slate */
+            --border-glow: rgba(6, 182, 212, 0.15);
+            --cyan: #06b6d4;
+            --purple: #a855f7;
+            --primary: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --gold: #fbbf24;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        
+        body {
+            background-color: var(--bg-backend);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           1. SIDEBAR BIẾN HÌNH (LEFT ON PC / BOTTOM ON MOBILE)
+           ========================================== */
+        .sidebar {
+            width: 260px;
+            background: var(--bg-panel);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0; bottom: 0; left: 0;
+            z-index: 100;
+            padding: 30px 20px;
+        }
+        .sidebar-logo {
+            font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 40px; text-transform: uppercase;
+            background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+        .menu-group { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .menu-item {
+            display: flex; align-items: center; gap: 15px; padding: 14px 20px;
+            color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            border-radius: 12px; transition: 0.3s;
+        }
+        .menu-item:hover, .menu-item.active {
+            color: #fff; background: rgba(255, 255, 255, 0.03);
+            box-shadow: inset 3px 0 0 var(--cyan);
+        }
+        .menu-item .icon { font-size: 1.1rem; }
+
+        /* Wallet Panel trên Sidebar */
+        .sidebar-wallet {
+            background: rgba(6, 182, 212, 0.05); border: 1px solid var(--border-glow);
+            padding: 15px; border-radius: 16px; display: flex; flex-direction: column; gap: 5px;
+        }
+        .wallet-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        .wallet-val { font-size: 1.1rem; font-weight: 800; color: var(--cyan); }
+
+        /* ==========================================
+           2. MAIN CONTENT AREA
+           ========================================== */
+        .main-panel {
+            flex: 1;
+            margin-left: 260px; /* Nhường chỗ cho sidebar trên PC */
+            padding: 40px 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Top Header Bar */
+        .top-navbar { display: flex; justify-content: space-between; align-items: center; }
+        .greeting h1 { font-size: 1.6rem; font-weight: 800; }
+        .greeting p { color: var(--text-muted); font-size: 0.9rem; }
+        
+        .top-actions { display: flex; align-items: center; gap: 15px; }
+        .search-wrapper { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 30px; display: flex; align-items: center; width: 300px; }
+        .search-wrapper input { background: transparent; border: none; color: #fff; outline: none; font-size: 0.85rem; width: 100%; }
+        
+        .btn-profile { background: var(--primary); border: none; color: #fff; padding: 10px 22px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        .btn-profile:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3); }
+
+        /* Featured Dashboard Banner */
+        .promo-hub {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(88, 28, 135, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 24px; padding: 35px; display: flex; justify-content: space-between; align-items: center;
+            position: relative; overflow: hidden;
+        }
+        .promo-hub::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(6, 182, 212, 0.15); filter: blur(80px); }
+        .promo-text h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+        .promo-text h2 span { color: var(--cyan); }
+        .promo-text p { color: var(--text-muted); font-size: 0.95rem; max-width: 500px; }
+
+        /* ==========================================
+           3. LƯỚI SẢN PHẨM PHONG CÁCH SAAS APP
+           ========================================== */
+        .hub-section-title { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .hub-section-title::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.05); }
+
+        .app-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        
+        .app-card {
+            background: var(--bg-card); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 20px;
+            padding: 25px; display: flex; flex-direction: column; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); position: relative;
+        }
+        .app-card:hover { background: rgba(20, 30, 50, 0.5); border-color: var(--border-glow); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        
+        .app-icon-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .app-icon { width: 48px; height: 48px; background: var(--bg-panel); border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .app-badge { background: rgba(6, 182, 212, 0.1); color: var(--cyan); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(6, 182, 212, 0.2); }
+
+        .app-name { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .app-summary { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; flex: 1; line-height: 1.5; }
+        
+        .app-meta-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 15px; }
+        .app-meta-item { display: flex; justify-content: space-between; font-size: 0.8rem; color: #cbd5e1; }
+        .app-meta-item span { color: var(--text-muted); }
+
+        .app-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .app-price { font-size: 1.3rem; font-weight: 800; color: #fff; }
+        .app-price span { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; display: block; text-decoration: line-through; }
+        
+        .btn-action { background: var(--bg-panel); color: #fff; border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; transition: 0.3s; text-transform: uppercase; cursor: pointer;}
+        .app-card:hover .btn-action { background: linear-gradient(135deg, #06b6d4, #0284c7); border-color: transparent; box-shadow: 0 5px 15px rgba(6, 182, 212, 0.3); }
+
+        /* ==========================================
+           4. RESPONSIVE BIẾN HÌNH DI ĐỘNG (MOBILE APP BAR)
+           ========================================== */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            
+            /* Biến sidebar thành Bottom Nav Bar trên điện thoại */
+            .sidebar {
+                width: 100%; height: 70px; flex-direction: row;
+                top: auto; bottom: 0; left: 0; right: 0;
+                padding: 0 10px; justify-content: space-around; align-items: center;
+                border-right: none; border-top: 1px solid var(--border-light);
+                box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+                backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            }
+            .sidebar-logo, .sidebar-wallet { display: none; } /* Giấu cấu trúc PC */
+            .menu-group { flex-direction: row; justify-content: space-around; width: 100%; gap: 0; }
+            .menu-item { flex-direction: column; gap: 4px; padding: 8px; font-size: 0.65rem; border-radius: 0; align-items: center;}
+            .menu-item:hover, .menu-item.active { background: transparent; box-shadow: none; color: var(--cyan); }
+            
+            .main-panel { margin-left: 0; padding: 25px 20px 100px 20px; gap: 30px; }
+            .search-wrapper, .greeting p { display: none; }
+            .promo-hub { padding: 20px; flex-direction: column; text-align: center; gap: 15px; }
+            .app-grid { grid-template-columns: 1fr; }
+        }
+
+        /* CSS TOAST CYBERPUNK CHẶN F12 */
+        #cyber-toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 99999; display: flex; flex-direction: column; gap: 15px; pointer-events: none; }
+        .cyber-toast { background: rgba(11, 15, 25, 0.95); border-left: 4px solid var(--cyan); border-radius: 12px; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.2); padding: 15px 25px; color: #fff; font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 12px; transform: translateX(120%); opacity: 0; animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; backdrop-filter: blur(10px); }
+        .cyber-toast.hide { animation: slideOut 0.4s ease forwards; }
+        @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideOut { to { transform: translateX(120%); opacity: 0; } }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">
-            <i class="fas fa-school"></i> TRƯỜNG CAO ĐẲNG KĨ THUẬT
+    <aside class="sidebar">
+        <div class="sidebar-logo">HK <span>Matrix</span></div>
+        
+        <nav class="menu-group">
+            <a href="#" class="menu-item active"><span class="icon">🏠</span>Trang Chủ</a>
+            <a href="#" class="menu-item"><span class="icon">💻</span>Mã Nguồn Web</a>
+            <a href="#" class="menu-item"><span class="icon">🤖</span>Bot Tự Động</a>
+            <a href="#" class="menu-item"><span class="icon">🔑</span>Key Hack VIP</a>
+            <a href="#" class="menu-item"><span class="icon">💳</span>Nạp Số Dư</a>
+        </nav>
+
+        <div class="sidebar-wallet">
+            <span class="wallet-label">Tài Khoản Xu</span>
+            <span class="wallet-val">1,250,000 CC</span>
         </div>
-        <div class="menu">
-            <a href="index.html" class="nav-btn active"><i class="fas fa-home"></i> Trang Chủ</a>
-            <a href="gioithieu.html" class="nav-btn"><i class="fas fa-info-circle"></i> Thông Tin Khoa</a>
-            <a href="tracuudiem.html" class="nav-btn"><i class="fas fa-search"></i> Tra Cứu Điểm</a>
+    </aside>
+
+    <main class="main-panel">
+        
+        <div class="top-navbar">
+            <div class="greeting">
+                <h1>Hệ Thống Hack & Code VIP</h1>
+                <p>Chào mừng trở lại khu quản lý của HOANGKUN STORE.</p>
+            </div>
+            <div class="top-actions">
+                <div class="search-wrapper">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm ma trận...">
+                </div>
+                <button class="btn-profile" onclick="alert('Form mẫu UI Đăng Nhập!')">Hồ Sơ Thành Viên</button>
+            </div>
         </div>
-    </nav>
 
-    <main class="container">
-        <section class="hero-section">
-            <h1>Chào mừng đến với Hệ thống Trường học Hiện đại</h1>
-            <p>Nơi ươm mầm tài năng và phát triển tương lai. Hệ thống hỗ trợ tra cứu và thông tin toàn diện.</p>
-            <button class="action-btn" onclick="window.location.href='tracuudiem.html'">Tra cứu điểm ngay</button>
-        </section>
+        <div class="promo-hub">
+            <div class="promo-text">
+                <h2>Cực Hạn Công Nghệ <span>Proxy V3</span></h2>
+                <p>Hệ thống tự động đồng bộ hóa các bản cập nhật bypass anti-cheat mới nhất. An toàn - Sạch sẽ - Tốc độ cao.</p>
+            </div>
+        </div>
 
-        <section class="features">
-            <div class="feature-card">
-                <i class="fas fa-book-reader"></i>
-                <h3>Đào Tạo Chất Lượng</h3>
-                <p>Chương trình học chuẩn quốc gia kết hợp kỹ năng thực tiễn.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-laptop-code"></i>
-                <h3>Hệ Thống Thông Minh</h3>
-                <p>Tra cứu điểm số, lịch học và thông tin trực tuyến 24/7.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-users"></i>
-                <h3>Cộng Đồng Sôi Động</h3>
-                <p>Hoạt động ngoại khóa đa dạng, phát triển toàn diện.</p>
-            </div>
-        </section>
-
-        <section class="stats-section">
-            <div class="stat-box">
-                <i class="fas fa-user-graduate"></i>
-                <h3>1500+</h3>
-                <p>Sinh Viên</p>
-            </div>
-            <div class="stat-box">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <h3>120+</h3>
-                <p>Giảng Viên</p>
-            </div>
-            <div class="stat-box">
-                <i class="fas fa-school"></i>
-                <h3>50+</h3>
-                <p>Phòng Học</p>
-            </div>
-        </section>
-
-        <section class="news-section">
-            <h2 class="section-title">Tin Tức & Sự Kiện</h2>
-            <div class="news-grid">
-                <div class="news-card">
-                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="News 1">
-                    <div class="news-content">
-                        <h4>Khai giảng năm học mới 2026</h4>
-                        <p>Lễ khai giảng diễn ra trang trọng với sự tham gia của toàn thể giảng viên và sinh viên...</p>
-                        <a href="tintuc.html#bai1" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
-                    </div>
+        <div class="hub-section-title">🌐 MÃ NGUỒN WEBSITE KINH DOANH</div>
+        <div class="app-grid">
+            <div class="app-card">
+                <div class="app-icon-row">
+                    <div class="app-icon">🛒</div>
+                    <span class="app-badge">Best Seller</span>
                 </div>
-                <div class="news-card">
-                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="News 2">
-                    <div class="news-content">
-                        <h4>Hội thao chào mừng ngày 26/3</h4>
-                        <p>Nhiều hoạt động thể thao sôi nổi nhằm nâng cao sức khỏe và tinh thần đoàn kết...</p>
-                       <a href="tintuc.html#bai2" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <h3 class="app-name">Code Web Shop Game Auto Bank</h3>
+                <p class="app-summary">Mã nguồn kinh doanh tự động 24/7. Tích hợp API check số dư ngân hàng và Momo xuất dữ liệu trong 3 giây.</p>
+                <div class="app-meta-list">
+                    <div class="app-meta-item"><span>Ngôn ngữ:</span><b>HTML5, CSS3, JS Pure</b></div>
+                    <div class="app-meta-item"><span>Cơ sở dữ liệu:</span><b>Firebase Realtime</b></div>
+                    <div class="app-meta-item"><span>Tốc độ load:</span><b>0.4 giây (Chuẩn SEO)</b></div>
                 </div>
-                <div class="news-card">
-                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="News 3">
-                    <div class="news-content">
-                        <h4>Cuộc thi sáng tạo khoa học kỹ thuật</h4>
-                        <p>Sinh viên trường thể hiện tài năng sáng tạo qua các dự án công nghệ xuất sắc...</p>
-                        <a href="tintuc.html#bai3" class="read-more">Đọc thêm <i class="fas fa-arrow-right"></i></a>
-                    </div>
+                <div class="app-footer">
+                    <div class="app-price">Liên Hệ</div>
+                    <button class="btn-action" onclick="window.location.href='web-shop-detail.html'">Chi Tiết</button>
                 </div>
             </div>
-        </section>
+
+            <div class="app-card">
+                <div class="app-icon-row">
+                    <div class="app-icon">🎨</div>
+                    <span class="app-badge" style="background:rgba(168,85,247,0.1); color:var(--purple); border-color:rgba(168,85,247,0.2);">Cyberpunk</span>
+                </div>
+                <h3 class="app-name">Landing Page Biocenter VIP</h3>
+                <p class="app-summary">Giao diện Landing Page giới thiệu bản thân phong cách Neon rực rỡ, tích hợp hiệu ứng gõ chữ mượt mà.</p>
+                <div class="app-meta-list">
+                    <div class="app-meta-item"><span>Framework:</span><b>Phaser / Animation JS</b></div>
+                    <div class="app-meta-item"><span>Chế độ:</span><b>Dark/Light Mode Sẵn</b></div>
+                    <div class="app-meta-item"><span>Cài đặt:</span><b>Vercel / GitHub Sẵn</b></div>
+                </div>
+                <div class="app-footer">
+                    <div class="app-price">Liên Hệ</div>
+                    <button class="btn-action" onclick="window.location.href='web-shop-detail.html'">Chi Tiết</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hub-section-title" style="color: var(--purple);">🎯 SCRIPT MOD GAME CHUYÊN SÂU</div>
+        <div class="app-grid">
+            <div class="app-card">
+                <div class="app-icon-row">
+                    <div class="app-icon">🎯</div>
+                    <span class="app-badge" style="background:rgba(16,185,129,0.1); color:var(--success); border-color:rgba(16,185,129,0.2);">Hoạt động</span>
+                </div>
+                <h3 class="app-name">Menu Mod Liên Quân Mobile</h3>
+                <p class="app-summary">Bản Hack kích hoạt ghim tâm chiêu thức 100%, nhìn thấu bản đồ nhỏ, mở khóa full hiệu ứng trang phục VIP.</p>
+                <div class="app-meta-list">
+                    <div class="app-meta-item"><span>Hệ điều hành:</span><b>iOS & Android</b></div>
+                    <div class="app-meta-item"><span>Bảo mật:</span><b>Bypass Anti-Cheat xịn</b></div>
+                    <div class="app-meta-item"><span>Thời hạn key:</span><b>24h / Tuần / Tháng</b></div>
+                </div>
+                <div class="app-footer">
+                    <div class="app-price">Free / Mở <span>150,000đ</span></div>
+                    <button class="btn-action" onclick="window.location.href='Lienquan.html'">Lấy Key</button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3>TRƯỜNG CAO ĐẲNG KĨ THUẬT</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Đường Công Nghệ, Quận Web, TP. Code</p>
-                <p><i class="fas fa-phone"></i> Hotline: 0123.456.789</p>
-                <p><i class="fas fa-envelope"></i> Email: lienhe@hoangkun.edu.vn</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Hệ thống quản lý trường học. Thiết kế và phát triển bởi HOANGKUN.</p>
-        </div>
-    </footer>
+    <script>
+        function showCyberToast(message) {
+            let container = document.getElementById('cyber-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'cyber-toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'cyber-toast';
+            toast.innerHTML = `⚠️ <div style="margin-left:8px;">${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 400);
+            }, 2500);
+        }
 
-    <script src="script.js"></script>
+        // Chặn chuột phải
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            showCyberToast('Hành động chuột phải đã bị mã hóa bảo mật!');
+        });
+
+        // Chặn tổ hợp phím nhà phát triển
+        document.onkeydown = function(e) {
+            const forbidden = [
+                123, // F12
+                (e.ctrlKey && e.shiftKey && e.keyCode === 73), // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.keyCode === 74), // Ctrl+Shift+J
+                (e.ctrlKey && e.keyCode === 85),               // Ctrl+U
+                (e.ctrlKey && e.keyCode === 83)                // Ctrl+S
+            ];
+            if (forbidden.includes(true)) {
+                e.preventDefault();
+                showCyberToast('Hệ thống kiểm tra mã nguồn đã bị vô hiệu hóa!');
+                return false;
+            }
+        };
+
+        // Không cho bôi đen kéo thả
+        document.onselectstart = e => { e.preventDefault(); return false; };
+    </script>
 </body>
 </html>
